@@ -123,6 +123,26 @@
     display: block;
     margin-bottom: 4px;
   }
+  .step-cert {
+    background: #FFF4E5;
+    border: 2px solid #FF9800;
+  }
+  .step-cert h2 { border-bottom-color: #FFCC80; }
+  .dl-link {
+    display: inline-block;
+    background: #FF9800;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    margin: 6px 0;
+  }
+  .dl-link:hover { background: #F57C00; }
+  .note {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
   code {
     background: var(--code-bg);
     padding: 2px 6px;
@@ -174,14 +194,42 @@
   <p class="download-meta">Windows 10 / 11 + Excel 2016 以降 (32bit / 64bit)</p>
 </div>
 
-<section>
-  <h2>インストール手順</h2>
+<section class="step-cert">
+  <h2>⚠ STEP 1（初回の PC のみ）: 証明書の登録</h2>
+  <p>
+    本アドインは現在 <strong>自己署名証明書</strong> で署名されています。そのため初めて使う PC では、
+    先に証明書を登録しておかないと、インストール時に
+    <code>System.Security.SecurityException</code>（配置マニフェストの証明書が信頼されていません）
+    が出て <strong>インストールできません</strong>。
+  </p>
+  <p>下のバッチをダウンロードしてダブルクリックするだけで、自動で証明書が登録されます（<strong>管理者権限は不要</strong>）。</p>
+  <p>
+    <a href="install_cert.cmd" class="dl-link" download>install_cert.cmd をダウンロード</a>
+  </p>
   <ol>
-    <li>上の <strong>「setup.exe をダウンロード」</strong> ボタンをクリック</li>
+    <li><code>install_cert.cmd</code> をダウンロード → <strong>ダブルクリック</strong>で実行</li>
+    <li>「セキュリティの警告 — 開いているファイル」が出たら <strong>「実行」</strong> をクリック</li>
+    <li>「セキュリティ警告（証明書ストア）」が出たら <strong>「はい」</strong> をクリック</li>
+    <li>黒い画面に <code>Done.</code> と表示されたら登録完了。任意のキーで閉じる</li>
+  </ol>
+  <p class="note">
+    ※ 検証後にこの証明書を削除したい場合は
+    <a href="uninstall_cert.cmd" download>uninstall_cert.cmd</a> をダウンロードして実行してください。<br>
+    ※ 手作業で登録したい場合は <a href="IkiKaiso.cer" download>IkiKaiso.cer</a> をダウンロードし、
+    証明書ウィザードで「現在のユーザー」→「<strong>信頼されたルート証明機関</strong>」と
+    「<strong>信頼された発行元</strong>」の<strong>両方</strong>にインポートしてください。
+  </p>
+</section>
+
+<section>
+  <h2>STEP 2: アドインのインストール</h2>
+  <ol>
+    <li>ページ上部の <strong>「setup.exe をダウンロード」</strong> ボタンをクリック</li>
     <li>ダウンロードした <code>setup.exe</code> を実行</li>
     <li>SmartScreen 警告が出たら <strong>「詳細情報」→「実行」</strong> をクリック</li>
     <li>必須コンポーネント (.NET Framework 4.8 / VSTO Runtime) が未インストールなら自動で導入されます</li>
-    <li><strong>「発行元を確認できません」</strong> 警告が出たら <strong>「インストール」</strong> をクリック (現状自己署名のため正常です)</li>
+    <li>インストール確認ダイアログで <strong>「インストール」</strong> をクリック<br>
+        <span class="note">(STEP 1 で証明書を登録済みなら、これでインストールが完了します)</span></li>
     <li>Excel を起動 → リボンに <strong>「階層化」</strong> タブが表示されれば完了</li>
   </ol>
 
