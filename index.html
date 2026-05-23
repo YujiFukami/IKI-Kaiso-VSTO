@@ -230,7 +230,8 @@
     <li>必須コンポーネント (.NET Framework 4.8 / VSTO Runtime) が未インストールなら自動で導入されます</li>
     <li>インストール確認ダイアログで <strong>「インストール」</strong> をクリック<br>
         <span class="note">(STEP 1 で証明書を登録済みなら、これでインストールが完了します)</span></li>
-    <li>Excel を起動 → リボンに <strong>「階層化」</strong> タブが表示されれば完了</li>
+    <li>Excel を起動 → リボンの <strong>「開発」</strong> タブの右端に <strong>「階層化フォーム」</strong> グループが表示されれば完了
+        <span class="note">(「開発」タブが非表示の場合は、Excel → オプション → リボンのユーザー設定 で「開発」にチェックを入れてください)</span></li>
   </ol>
 
   <div class="warning">
@@ -244,8 +245,7 @@
 <section>
   <h2>使い方</h2>
   <ol>
-    <li>Excel リボンの <strong>「階層化」</strong> タブをクリック</li>
-    <li><strong>「フォームを開く」</strong> ボタンをクリック</li>
+    <li>Excel リボンの <strong>「開発」</strong> タブ → <strong>「階層化フォーム」</strong> グループの <strong>「フォームを開く」</strong> ボタンをクリック</li>
     <li>解析画面 (タスクペイン、フローティング表示) が起動</li>
     <li><strong>「読み込み / 更新」</strong> で開いているブックの VBA プロジェクトを解析</li>
     <li>プロジェクト / モジュール / 宣言メンバー / プロシージャ一覧 + 階層ビュー + コードビューが表示される</li>
@@ -273,18 +273,62 @@
 </section>
 
 <section>
-  <h2>自動更新</h2>
+  <h2>更新</h2>
+  <h3>自動更新</h3>
   <p>
-    新バージョンがリリースされると、Excel 起動時に自動で更新ダイアログが表示されます (7 日に 1 回チェック)。
+    新バージョンがリリースされると、<strong>Excel 起動のたびに</strong>更新ダイアログが表示されます。
     「OK」を押すと更新が適用されます。
+  </p>
+  <h3>手動更新</h3>
+  <p>
+    すぐに最新版を取りたい場合は、Excel リボンの <strong>「開発」</strong> タブ →
+    <strong>「階層化フォーム」</strong> グループの <strong>「更新確認」</strong> ボタンをクリックしてください。
+    VSTO インストーラが起動し、新版があれば更新、なければ「既にインストール済み」と表示されます。
+    更新後は Excel の再起動が必要です。
   </p>
 </section>
 
 <section>
   <h2>アンインストール</h2>
+
+  <h3>① アドイン本体の削除</h3>
   <p>
-    Windows の <strong>設定</strong> → <strong>アプリ</strong> → <strong>インストールされているアプリ</strong> で
-    「階層化フォーム (Kaiso)」を選択して削除してください。
+    Windows の <strong>設定 → アプリ → インストールされているアプリ</strong> で
+    「<strong>階層化フォーム (Kaiso)</strong>」を検索し、<strong>…</strong>（三点メニュー）→ <strong>アンインストール</strong> を選択してください。
+    複数エントリが表示される場合は全て削除してください（インストール元の異なるエントリが残っていると、再インストール時に衝突します）。
+  </p>
+
+  <p style="text-align:center; margin:18px 0;">
+    <img src="説明画像/アンインストール手順.jpg" alt="アンインストール手順の画面イメージ"
+         style="max-width:100%; height:auto; border:1px solid var(--border); border-radius:8px;">
+  </p>
+
+  <h3>② 証明書の削除 (任意)</h3>
+  <p>
+    STEP 1 で登録した自己署名証明書も削除したい場合は、次のいずれかの方法で削除します。
+    アドインを再インストールする予定があるなら、証明書は残しておいて構いません。
+  </p>
+
+  <p><strong>方法 A: バッチで自動削除 (推奨)</strong></p>
+  <p>
+    <a href="uninstall_cert.cmd" class="dl-link" download>uninstall_cert.cmd をダウンロード</a>
+  </p>
+  <ol>
+    <li><code>uninstall_cert.cmd</code> をダウンロード → <strong>ダブルクリック</strong>で実行</li>
+    <li>「セキュリティの警告」が出たら <strong>「実行」</strong> をクリック</li>
+    <li>黒い画面に <code>Done.</code> と表示されたら削除完了</li>
+  </ol>
+
+  <p><strong>方法 B: 手作業で削除</strong></p>
+  <ol>
+    <li><strong>Win + R</strong> キーを押し、<code>certmgr.msc</code> と入力して <strong>OK</strong></li>
+    <li>左ペインの <strong>「信頼されたルート証明機関」 → 「証明書」</strong> を開く</li>
+    <li>右ペインから <strong>「IkiKaiso」</strong> (発行先 / 発行者ともに IkiKaiso) を探して右クリック → <strong>「削除」</strong></li>
+    <li>同じく <strong>「信頼された発行元」 → 「証明書」</strong> の中の <strong>「IkiKaiso」</strong> も削除</li>
+    <li>certmgr.msc を閉じて完了</li>
+  </ol>
+  <p class="note">
+    ※ どちらの方法でも管理者権限は不要です（現在のユーザーストアからの削除のため）。
   </p>
 </section>
 
@@ -293,8 +337,9 @@
   <table>
     <tr><th>症状</th><th>対処</th></tr>
     <tr>
-      <td>リボンに「階層化」タブが出ない</td>
-      <td>Excel → オプション → アドイン → 管理: <strong>使用できないアイテム</strong> で <code>IkiKaiso</code> を有効化。
+      <td>「開発」タブに「階層化フォーム」グループが出ない</td>
+      <td>① Excel → オプション → <strong>リボンのユーザー設定</strong> で「開発」タブが有効か確認。<br>
+      ② Excel → オプション → アドイン → 管理: <strong>使用できないアイテム</strong> で <code>IkiKaiso</code> を有効化。<br>
       または管理: <strong>COM アドイン</strong> で <code>IkiKaiso</code> にチェック</td>
     </tr>
     <tr>
@@ -311,7 +356,7 @@
     </tr>
     <tr>
       <td>自動更新が来ない</td>
-      <td>Excel 再起動 / 7 日待つ / 本ページにアクセス可能なネットワーク環境か確認</td>
+      <td>Excel を再起動 / リボンの「更新確認」ボタンで手動チェック / 本ページにアクセス可能なネットワーク環境か確認</td>
     </tr>
   </table>
 </section>
