@@ -20,8 +20,8 @@ echo [2/2] removing from Trusted Publishers ...
 echo.
 echo ============================================================
 echo  Done. The IkiKaiso certificate has been removed.
-echo  (If you want to fully uninstall the add-in itself, use
-echo   Windows Settings - Apps - "階層化フォーム (Kaiso)".)
+echo  To uninstall the add-in itself, use:
+echo    Windows Settings - Apps - search "Kaiso" - Uninstall.
 echo ============================================================
 echo.
 pause
